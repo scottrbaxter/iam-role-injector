@@ -73,7 +73,7 @@ determine_timeout(){
     OS_TYPE=$(uname -s)
     # linux specific
     if [ "$OS_TYPE" = Linux ]; then
-        export AWS_STS_TIMEOUT=$(date --date="$AWS_STS_EXPIRATION" "+%s")
+        export AWS_STS_TIMEOUT=$(date --date="$(echo $AWS_STS_EXPIRATION | sed -e 's/T/\ /g' -e 's/Z$//g')" "+%s")
     # mac specific
     elif [ "$OS_TYPE" = Darwin ]; then
         export AWS_STS_TIMEOUT=$(date -ujf "%Y-%m-%dT%H:%M:%SZ" "$AWS_STS_EXPIRATION" "+%s") # reassign var to epoch timestamp
